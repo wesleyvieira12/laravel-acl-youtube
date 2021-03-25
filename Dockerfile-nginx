@@ -1,0 +1,9 @@
+FROM nginx:alpine
+
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN mkdir ~/application
+
+WORKDIR "/application"
+
+COPY ./app .
