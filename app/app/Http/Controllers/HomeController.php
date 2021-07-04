@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Jobs\EnvioEmailJob;
+use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\Process\ExecutableFinder;
 
 class HomeController extends Controller
 {
@@ -26,6 +29,18 @@ class HomeController extends Controller
     {
         $roles = Role::all();
         return view('home',compact('roles'));
+    }
+
+    public function enviaEmail()
+    {
+        try{
+
+        
+            EnvioEmailJob::dispatch()->onQueue('default')->delay(now()->addMinutes(1));
+        } catch (Exception $e) {
+            dd($e);
+        }
+        
     }
     
 }
